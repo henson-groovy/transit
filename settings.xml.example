@@ -1,0 +1,9 @@
+<transitSettings>
+  <profile name="Development" status="Active">
+    <connString>jdbc:oracle:thin:@MYSERVER:1521:DEVELOPMENT</connString>
+    <username>USER</username>
+    <password>PASSWORD<password>
+    <driver>oracle.jdbc.OracleDriver</driver>
+    <ioDir>PATH/TO/FILE<ioDir>
+  </profile>
+</transitSettings>
