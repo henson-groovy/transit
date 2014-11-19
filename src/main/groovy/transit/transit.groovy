@@ -4,11 +4,11 @@ import static groovy.io.FileType.*
 
 class Transit {
   static main(args) {
-    // Setup SQL Connection and Logging Directory
+    // Setup the SQL connection and logging directory
     Connection conn = new Connection()
     Log log = new Log(conn.IODir)
     
-    // Loop through the transcripts, sort and verify
+    // Loop through the transcripts, load into our objects
     File xmlDir = new File(conn.IODir)
     xmlDir.eachFileMatch(FILES, ~/.+\.(XML|xml)/, { xmlFile ->
       def xmlTranscript = new XmlSlurper().parse(xmlFile)
@@ -27,7 +27,7 @@ class Transit {
 	  throw new EmptyAttendancePeriods()     
 	}
 	
-    
+	// Load up the attendance periods
 	xmlTranscript.Student.AcademicRecord.AcademicSession.each { session ->
 	  try {
 	    AttendancePeriod attendancePeriod = new AttendancePeriod(
@@ -37,8 +37,7 @@ class Transit {
 	    log.setPrefix("${student.StudentID} ${attendancePeriod.SBGICode} ${attendancePeriod.termCode}")
 	    log.logIt("Setting up attendance period.")
 	  
-	    // Collect the courses under each section
-     
+	    // Load up the courses 
 	    session.Course.each {
 	      try {
 		Course course = new Course(
@@ -83,9 +82,11 @@ class Transit {
 	    course.setCourse(student.PIDM, attendancePeriod.TritNo, attendancePeriod.TramNo, conn.DB)
 	  }
 	}
-	 
+	
+	// If there weren't errors with the transcript, moved it into 'Processed' 
 	def newFileName = xmlFile.getName()
 	File processed = new File(conn.IODir + '\\Processed')
+	// And if the file already exists, rename it
 	while (!xmlFile.renameTo(new File(processed, newFileName))) {
 	  if (newFileName.lastIndexOf('-') == -1) {
 	    newFileName = newFileName[0..(newFileName.lastIndexOf('.')-1)] + '-1.xml'
