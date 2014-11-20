@@ -9,7 +9,7 @@ repositories {
 
 dependencies {
   compile 'org.codehaus.groovy:groovy-all:2.3.7'
-  compile files('libs/ojdbc6.jar')
+  compile files('/usr/lib/oracle/12.1/client64/lib/ojdbc6.jar')
 }
 
 // (W)Rap it up!
