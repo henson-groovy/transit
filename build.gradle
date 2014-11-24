@@ -9,8 +9,6 @@ repositories {
 
 dependencies {
   compile 'org.codehaus.groovy:groovy-all:2.3.7'
-  // Paths outside of the workspace seem to work fine in Jenkins
-  // But I'll just symlink something here
   compile files('libs/ojdbc6.jar')
 }
 
