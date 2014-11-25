@@ -48,6 +48,7 @@ class Course {
     this.fixGrade(sql)
     this.fixStar()
     this.fixSubject()
+    this.fixTitle()
     
     if(!this.Credits.isNumber()) {
       throw new CreditsAreNaN(this.Subject, this.Number, this.Credits)
@@ -82,6 +83,11 @@ class Course {
     if (this.Subject ==~ /(B|8)(I|1)(O|0).*/) {
       this.Subject = 'BIO' + this.Subject[3..(this.Subject.length()-1)]
     }  
+  }
+  
+  private def fixTitle() {
+    // Probably need to add more PL/SQL sanitization
+    this.Title = this.Title.replaceAll("'", '')
   }
 
  def doesntExist(String pidm, String sbgi, Sql sql) {
