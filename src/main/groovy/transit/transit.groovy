@@ -5,12 +5,7 @@ import static groovy.io.FileType.*
 class Transit {
   static main(args) {
     // Setup the SQL connection and logging directory
-    try {
-      Connection conn = new Connection()
-    } catch(FileNotFoundException | SAXParseException e) {
-      println "Issue with settings file or permissions."
-      System.exit(1)
-    }
+    Connection conn = new Connection()
     Log log = new Log(conn.IODir)
     
     // Loop through the transcripts, load into our objects
